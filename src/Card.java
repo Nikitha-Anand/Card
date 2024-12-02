@@ -60,34 +60,34 @@ public class Card {
     }
     public static Integer ChooseCard(Integer index){
         if(index >= 1 && index <= 30){
-            if(Boolean.TRUE.equals(selected(index-1))){
-                for (int i = 1; i < 30; i++) {
-                    if(Boolean.FALSE.equals(selected(i - 1))){
-                        return i-1;
-                    }
-                }
-            }else{
-                SelectedArray[index-1] = true;
-                return index-1;
-            }
+            SelectedArray[index-1] = true;
+            return index-1;
         }else{
             System.out.println("The index is not within the range [1,30]");
         }
         return null;
     }
 
-    public static void main(String[] args){
+    public static void main(){
         ReadData();
         Card[] Player1 = new Card[4];
         Scanner keyboard = new Scanner(System.in);
+        Integer data;
         for (int i =0; i<4; i++) {
-            System.out.println("\nEnter a number(index): ");
-            Integer data = keyboard.nextInt();
+            //Repeatedly prompt the player to pick a different card if already choosen
+            do{
+                System.out.println("\nEnter a card number: ");
+                data = keyboard.nextInt();
+                if(selected(data)){
+                    System.out.println("Oops! Your card is already selected! Try Again!");
+                }
+            } while(selected(data));
             Player1[i] = card[ChooseCard(data)];
+            SelectedArray[data] = true;
         }
         for (int i = 0; i < 4; i++) {
-            System.out.println("Number of the card: "+ Player1[i].Number);
-            System.out.println("Colour of the card: "+ Player1[i].Colour);
+            System.out.println("Number of the card: "+ Player1[i].GetNumber());
+            System.out.println("Colour of the card: "+ Player1[i].GetColour());
         }
     }
 }
